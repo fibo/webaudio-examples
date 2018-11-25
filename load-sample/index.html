@@ -1,30 +1,36 @@
 <!DOCTYPE>
 <html>
   <head>
-    <script>
-      const request = new XMLHttpRequest()
-      request.open('GET', '../techno.wav', true)
-      request.responseType = "arraybuffer"
-
-      request.onload = function () {
-        const context = createAudioContext()
-
-        const buffer = context.createBuffer(request.response, false)
-        const source = context.createBufferSource()
-
-        source.buffer = buffer
-
-        // source.loop = true
-
-        source.connect(context.destination)
-
-        source.start()
-      }
-
-      request.send()
-
-    </script>
   </head>
   <body>
+    <button id="play">play</button>
+
+    <script>
+      const request = new XMLHttpRequest()
+      request.open('GET', 'techno.wav', true)
+      request.responseType = 'arraybuffer'
+
+      function onload () {
+        const playButton = document.getElementById('play')
+
+        const context = new AudioContext()
+
+        context.decodeAudioData(request.response, buffer => {
+          const source = context.createBufferSource()
+
+          source.buffer = buffer
+
+          source.connect(context.destination)
+
+          playButton.onclick = function () {
+            source.start()
+          }
+        })
+      }
+
+      request.onload = onload
+
+      request.send()
+    </script>
   </body>
 </html>
