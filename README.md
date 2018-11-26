@@ -1,4 +1,3 @@
 # webaudio-examples
 
-* [Load sample](./load-sample)
-
+All examples are in [docs/](./docs) folder.
