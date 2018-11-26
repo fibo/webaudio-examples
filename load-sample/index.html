@@ -1,36 +1,126 @@
 <!DOCTYPE>
 <html>
   <head>
-  </head>
-  <body>
-    <button id="play">play</button>
-
-    <script>
-      const request = new XMLHttpRequest()
-      request.open('GET', 'techno.wav', true)
-      request.responseType = 'arraybuffer'
-
-      function onload () {
-        const playButton = document.getElementById('play')
-
-        const context = new AudioContext()
-
-        context.decodeAudioData(request.response, buffer => {
-          const source = context.createBufferSource()
-
-          source.buffer = buffer
-
-          source.connect(context.destination)
-
-          playButton.onclick = function () {
-            source.start()
-          }
-        })
+    <style>
+      #toolbar {
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
 
-      request.onload = onload
+      button {
+        all: unset;
+        font-size: 50px;
+        cursor: pointer;
+        padding: 20px;
+        text-transform: uppercase;
+        border: 8px solid white;
+        color: white;
+        margin: 10px;
+        border-radius: 5px;
+        background-color: black;
+      }
 
-      request.send()
+      button:hover {
+        border: 8px solid black;
+        color: black;
+      }
+
+      #loop {
+        background-color: tomato;
+      }
+
+      #play {
+        background-color: lightgreen;
+      }
+
+      #stop {
+        background-color: gold;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="toolbar">
+      <button id="play">play</button>
+      <button id="stop">stop</button>
+      <button id="loop">loop</button>
+    </div>
+
+    <code></code>
+
+    <script id="loadSample">
+      window.addEventListener('load', function () {
+        const request = new XMLHttpRequest()
+        request.open('GET', 'techno.wav', true)
+        request.responseType = 'arraybuffer'
+
+        function onload () {
+          const loopButton = document.getElementById('loop')
+          const playButton = document.getElementById('play')
+          const stopButton = document.getElementById('stop')
+
+          let loop = false
+
+          function colorLoop () {
+            if (loop) {
+              document.body.bgColor = 'tomato'
+            } else {
+              document.body.bgColor = 'gold'
+            }
+          }
+
+          function toggleLoop () {
+            loop = !loop
+
+            colorLoop()
+          }
+
+          loopButton.onclick = toggleLoop
+
+          const context = new AudioContext()
+
+          context.decodeAudioData(request.response, buffer => {
+            document.body.bgColor = 'gold'
+
+            let source
+
+            playButton.onclick = function () {
+              document.body.bgColor = 'lightgreen'
+
+              if (source) {
+                source.stop()
+              }
+
+              // Create a source buffer on every play button click to avoid the following error
+              //
+              // Failed to set the 'buffer' property on 'AudioBufferSourceNode':
+              // Cannot set buffer to non-null after it has been already been set to a non-null buffer
+
+              source = context.createBufferSource()
+
+              source.buffer = buffer
+              source.loop = loop
+
+              source.connect(context.destination)
+
+              stopButton.onclick = function () {
+                colorLoop()
+
+                source.stop()
+
+                // Empty the source buffer, then on play it will be created a new one
+                source = null
+              }
+
+              source.start()
+            }
+          })
+        }
+
+        request.onload = onload
+
+        request.send()
+      })
     </script>
   </body>
 </html>
