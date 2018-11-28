@@ -2,125 +2,85 @@
 <html>
   <head>
     <style>
-      #toolbar {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-
+body {
+  background-color: slategrey;
+}
       button {
-        all: unset;
-        font-size: 50px;
-        cursor: pointer;
-        padding: 20px;
-        text-transform: uppercase;
-        border: 8px solid white;
-        color: white;
-        margin: 10px;
-        border-radius: 5px;
-        background-color: black;
+          all: unset;
+        transform: rotate(-17deg);
+        font-size: 10vh;
+        position: absolute;
+        top: 50vh;
+        left: 10vw;
+        width: 80%;
+        border: 5px solid #333;
+        height: 10vh;
+        background-color: gold;
+        text-shadow: 2px 2px 4px #000000;
+        color: #333;
       }
-
-      button:hover {
-        border: 8px solid black;
-        color: black;
+      table {
+        margin-left:auto;
+        margin-right:auto;
       }
-
-      #loop {
+      thead td {
+        height: 5vh;
+      }
+      tbody td {
+        height: 10vh;
+      }
+      td {
+        background-color: #333;
+        width: 10vw;
+      }
+      tbody td:hover {
         background-color: tomato;
       }
+      thead td.active {
+        background-color: gold;
 
-      #play {
-        background-color: lightgreen;
+      }
+      tbody td.active {
+        background-color: tomato;
+            animation: neon5 1.5s ease-in-out infinite alternate;
       }
 
-      #stop {
-        background-color: gold;
+      @keyframes neon5 {
+  from {
+    text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff, 0 0 40px #FF9900, 0 0 70px #FF9900, 0 0 80px #FF9900, 0 0 100px #FF9900, 0 0 150px #FF9900;
+  }
+  to {
+    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #FF9900, 0 0 35px #FF9900, 0 0 40px #FF9900, 0 0 50px #FF9900, 0 0 75px #FF9900;
+  }
       }
     </style>
   </head>
   <body>
     <div id="toolbar">
       <button id="play">play</button>
-      <button id="stop">stop</button>
-      <button id="loop">loop</button>
     </div>
 
-    <code></code>
+    <table>
+      <thead>
+        <tr>
+          <td class="active"></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td>
+        </tr>
 
-    <script id="loadSample">
-      window.addEventListener('load', function () {
-        const request = new XMLHttpRequest()
-        request.open('GET', 'techno.wav', true)
-        request.responseType = 'arraybuffer'
+        <tr>
+          <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td>
+        </tr>
 
-        function onload () {
-          const loopButton = document.getElementById('loop')
-          const playButton = document.getElementById('play')
-          const stopButton = document.getElementById('stop')
+        <tr>
+          <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td>
+        </tr>
+      </tbody>
+    </table>
 
-          let loop = false
-
-          function colorLoop () {
-            if (loop) {
-              document.body.bgColor = 'tomato'
-            } else {
-              document.body.bgColor = 'gold'
-            }
-          }
-
-          function toggleLoop () {
-            loop = !loop
-
-            colorLoop()
-          }
-
-          loopButton.onclick = toggleLoop
-
-          const context = new AudioContext()
-
-          context.decodeAudioData(request.response, buffer => {
-            document.body.bgColor = 'gold'
-
-            let source
-
-            playButton.onclick = function () {
-              document.body.bgColor = 'lightgreen'
-
-              if (source) {
-                source.stop()
-              }
-
-              // Create a source buffer on every play button click to avoid the following error
-              //
-              // Failed to set the 'buffer' property on 'AudioBufferSourceNode':
-              // Cannot set buffer to non-null after it has been already been set to a non-null buffer
-
-              source = context.createBufferSource()
-
-              source.buffer = buffer
-              source.loop = loop
-
-              source.connect(context.destination)
-
-              stopButton.onclick = function () {
-                colorLoop()
-
-                source.stop()
-
-                // Empty the source buffer, then on play it will be created a new one
-                source = null
-              }
-
-              source.start()
-            }
-          })
-        }
-
-        request.onload = onload
-
-        request.send()
-      })
-    </script>
+    <script src="bundle.js"></script>>
   </body>
 </html>
