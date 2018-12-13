@@ -2,12 +2,13 @@
 <html>
   <head>
     <style>
-body {
-  background-color: slategrey;
-}
-      button {
-          all: unset;
-        transform: rotate(-17deg);
+      body {
+        background-color: slategrey;
+      }
+      button#play {
+        all: unset;
+        cursor: pointer;
+        transform: rotate(-7.1deg);
         font-size: 10vh;
         position: absolute;
         top: 50vh;
@@ -18,6 +19,11 @@ body {
         background-color: gold;
         text-shadow: 2px 2px 4px #000000;
         color: #333;
+        transition: 1s;
+      }
+      button#play[disabled] {
+        transform: rotate(-1.7deg);
+        background-color: transparent;
       }
       table {
         margin-left:auto;
@@ -34,53 +40,43 @@ body {
         width: 10vw;
       }
       tbody td:hover {
-        background-color: tomato;
+        background-color: black;
       }
       thead td.active {
         background-color: gold;
 
       }
       tbody td.active {
-        background-color: tomato;
-            animation: neon5 1.5s ease-in-out infinite alternate;
-      }
-
-      @keyframes neon5 {
-  from {
-    text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff, 0 0 40px #FF9900, 0 0 70px #FF9900, 0 0 80px #FF9900, 0 0 100px #FF9900, 0 0 150px #FF9900;
-  }
-  to {
-    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #FF9900, 0 0 35px #FF9900, 0 0 40px #FF9900, 0 0 50px #FF9900, 0 0 75px #FF9900;
-  }
+        background-color: gold;
       }
     </style>
   </head>
   <body>
     <div id="toolbar">
-      <button id="play">play</button>
+      <button id="play" disabled>play</button>
     </div>
 
     <table>
       <thead>
         <tr>
-          <td class="active"></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td>
+          <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td>
         </tr>
       </thead>
       <tbody>
-        <tr>
+        <tr class="hihat">
           <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td>
         </tr>
 
-        <tr>
+        <tr class="snare">
           <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td>
         </tr>
 
-        <tr>
+        <tr class="kick">
           <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td>
         </tr>
       </tbody>
     </table>
 
-    <script src="bundle.js"></script>>
+    <script src="app.js"></script>>
   </body>
 </html>
