@@ -1,12 +1,41 @@
+@import url('https://fonts.googleapis.com/css?family=Lobster');
+
 body {
   margin: 0;
   padding: 0;
+
+  background-color: oldlace;
+
+  font-family: 'Lobster', cursive;
+  color: #444;
+}
+
+h1, h2 {
+  margin: 5px;
+  text-align: center;
+  font-weight: normal;
 }
 
 button {
+  all: unset;
+
+  background-color: tan;
+
+  border-radius: 5px;
+
+  text-align: center;
+  font-size: 5vh;
+
+  cursor: pointer;
+
   width: 100vw;
   height: 10vh;
   margin-right: auto;
   margin-left: auto;
   margin-top: 2vh;
+  margin-bottom: 0;
+}
+
+button[disabled] {
+  background-color: transparent;
 }
